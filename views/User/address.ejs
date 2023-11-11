@@ -1,0 +1,675 @@
+<%-include('../partials/userheader')-%>
+
+        <main class="main">
+        	
+            <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3" style="background-color:#f2f3f7;">
+                <div class="container" >
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html" style="font-weight: 500;">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#" style="font-weight: 500;">Shop</a></li>
+                        <li class="breadcrumb-item active" aria-current="page" style="font-weight: 500;">My Account</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+             <div class="ur-acct">
+                <h5>YOUR ACCOUNT</h5>
+             </div>
+            <div class="page-content">
+            	<div class="dashboard" >
+	                <div class="container">
+	                	<div class="row">
+	                		<aside class="col-md-3 col-lg-3" style="border: 1px solid #e9e9e9;border-radius: 3px;background-color: #f5f5f5; ">
+	                			<ul class="nav nav-dashboard flex-column mb-3 mb-md-0" role="tablist">
+								    <li class="nav-item">
+                                         <a class="nav-link " id="tab-dashboard-link"  href="/dashboard"><i class="icon-user" style="padding: 5px;"></i>Dashboard</a>
+								    </li>
+								    <li class="nav-item">
+								        <a class="nav-link " id="tab-orders-link"  href="/order" ><i class="icon-arrow-up" style="padding: 5px;"></i>Orders</a>
+								    </li>
+								    <!-- <li class="nav-item">
+								        <a class="nav-link" id="tab-downloads-link" data-toggle="tab" href="#tab-downloads" role="tab" aria-controls="tab-downloads" aria-selected="false"><i class="icon-shopping-cart" style="padding: 5px;"></i>My Cart</a>
+								    </li> -->
+								    <li class="nav-item">
+								        <a class="nav-link " id="tab-address-link"  href="/wishlist" role="tab" ><i class="icon-heart-o" style="padding: 5px;"></i>Wishlist</a>
+								    </li>
+                                    <li class="nav-item">
+								        <a class="nav-link" id="tab-account-link"  href="/addaddress" ><i class="icon-plus" style="padding: 5px;"></i>Add Address</a>
+								    </li>
+                                    <li class="nav-item">
+								        <a class="nav-link active" id="tab-account-link" data-toggle="tab" href="#tab-address" role="tab" aria-controls="tab-account" aria-selected="true"><i class="icon-bars" style="padding: 5px;"></i>Address</a>
+								    </li>
+								    <li class="nav-item">
+								        <a class="nav-link" id="tab-account-link"  href="/account" ><i  class="fas fa-user-circle" style="padding: 5px;"></i>Account Details</a>
+								    </li>
+                                    <li class="nav-item">
+								        <a class="nav-link" id="tab-account-link"  href="/wallet" role="tab" aria-controls="tab-account" aria-selected="false"><i class="fas fa-wallet" style="padding: 5px;"></i>Wallet</a>
+								    </li>
+								    <li class="nav-item">
+								        <a class="nav-link" style="border: none;" href="/logout"><i class="fas fa-sign-out-alt" style="padding: 5px;"></i>
+                                            Sign Out</a>
+								    </li>
+								</ul>
+                              
+	                		</aside><!-- End .col-lg-3 -->
+                            <div class="col-md-8 col-lg-9">
+	                			<div class="tab-content">
+                                    <div class="row">
+										<% if (user.address && user.address.length > 0) { %>
+											<!-- User has addresses -->
+											<% for (var i = 0; i < user.address.length; i++) { %>
+												<div class="col-lg-6">
+													<div class="card card-dashboard">
+														<div class="card-body">
+															<!-- Display user's addresses -->
+															<button type="button" class="deleteaddress btn align-items delete-button" 
+																data-id="<%= user.address[i]._id %>">
+																<i class="fas fa-trash"></i>
+															</button>
+															<h3 class="card-title">Billing Address (<%= i + 1 %>)</h3>
+															<!-- Display address details here -->
+															<p>
+																<%= user.address[i].fullname %><br>
+																<%= user.address[i].houseno %><br>
+																<%= user.address[i].state %><br>
+																<%= user.address[i].street %><br>
+																<%= user.address[i].pincode %><br>
+																<%= user.address[i].phone %><br>
+																<%= user.address[i].email %><br>
+															</p>
+															<button type="button" class="nav-link btn btn-outline-primary-2" 
+																data-toggle="modal" data-target="#editModal<%= i %>" data-whatever="@fat">
+																<span>Edit</span>
+																<i class="icon-edit"></i>
+															</button>
+								
+															<div class="modal fade" id="editModal<%= i %>" tabindex="-1" role="dialog" 
+																aria-labelledby="exampleModalLabel" aria-hidden="true">
+																<div class="modal-dialog" role="document">
+																	<div class="modal-content">
+																		<div class="modal-header">
+																			<h5 class="modal-title"
+																				id="exampleModalLabel">
+																				Edit
+																				Page
+																			</h5>
+																			<button type="button" class="close"
+																				data-dismiss="modal" aria-label="Close">
+																				<span aria-hidden="true">&times;</span>
+																			</button>
+																		</div>
+																		<div class="modal-body">
+																			
+																			<form>
+								
+																				<div class="row" style="margin:10px;">
+																					<div class="col-sm-6">
+														
+																						<label
+																							for="Fullname">Fullname</label>
+																						<input type="text"
+																							class="form-control"
+																							name="fullname"
+																							value="<%=user.address[i].fullname %>"
+																							id="editname" required>
+																						<div id="editname_1"
+																							style="color:red;">
+																						</div>
+								
+																					</div>
+								
+																					<div class="col-sm-6">
+																						<label for="House"
+																							class="col-form-label">House
+																							Name/no</label>
+																						<input type="text"
+																							class="form-control"
+																							id="edithouse"
+																							name="houseno"
+																							value="<%=user.address[i].houseno%>"
+																							required>
+																						<div id="edithouse_2"
+																							style="color:red;">
+																						</div>
+																					</div>
+																				</div>
+																				<div class="row" style="margin:10px;">
+																					<div class="col-sm-6">
+																						<label for="Street"
+																							class="col-form-label">Street</label>
+																						<input type="text"
+																							class="form-control"
+																							name="street"
+																							value="<%=user.address[i].street%>"
+																							id="editstreet" required>
+																						<div id="editstreet_3"
+																							style="color:red;">
+																						</div>
+																						<input type="text"
+																							name="addressid"
+																							id="editaddressid"
+																							value="<%=user.address[i]._id%>"
+																							class="form-control" hidden>
+																					</div>
+																					<div class="col-sm-6">
+																						<label for="State"
+																							class="col-form-label">State</label>
+																						<input type="text"
+																							class="form-control"
+																							id="editstate" name="state"
+																							value="<%=user.address[i].state%>"
+																							required>
+																						<div id="editstate"
+																							style="color:red;">
+																						</div>
+																					</div>
+																				</div>
+																				<div class="row" style="margin:10px;">
+																					<div class="col-sm-6">
+																						<label for="Pincode"
+																							class="col-form-label">Pincode</label>
+																						<input type="text"
+																							class="form-control"
+																							name="pincode"
+																							id="editpincode"
+																							value="<%=user.address[i].pincode%>"
+																							required>
+																						<div id="editpincode_4"
+																							style="color:red;">
+																						</div>
+																					</div>
+																					<div class="col-sm-6">
+																						<label for="Phone"
+																							class="col-form-label">Phone</label>
+																						<input type="text"
+																							class="form-control"
+																							id="editphone" name="phone"
+																							value="<%=user.address[i].phone%>"
+																							required>
+																						<div id="editphone_5"
+																							style="color:red;">
+																						</div>
+																					</div>
+																				</div>
+								
+								                         </form>
+																		</div>
+																		<div class="modal-footer">
+								
+																			<button type="button"
+																				class="btn btn-outline-primary-2"
+																				id="savebtn">Save</button>
+																			</form>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</div><!-- End .card-body -->
+													</div><!-- End .card-dashboard -->
+												</div><!-- End .col-lg-4 -->
+											<% } %>
+										<% } else { %>
+											<!-- User does not have addresses -->
+											<div class="col-lg-6">
+												<div class="card card-dashboard">
+													<div class="card-body">
+														<h3 class="card-title">Billing Address</h3>
+														<a href="#tab-newaddress" data-toggle="tab" id="addAddress" role="tab"
+															aria-controls="tab-address" aria-selected="false">
+															<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+																class="bi bi-plus-lg" viewBox="0 0 16 16">
+																<path fill-rule="evenodd"
+																	d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2Z" />
+															</svg>
+														</a>
+														<!-- End of adding a new address form -->
+													</div><!-- End .card-body -->
+												</div><!-- End .card-dashboard -->
+											</div><!-- End .col-lg-6 -->
+										<% } %>
+									</div><!-- End .row -->
+                                  </div>
+                               </div>
+                            </div>
+                        </div>
+                      
+                       
+								  
+	                </div><!-- End .container -->
+                </div><!-- End .dashboard -->
+            </div><!-- End .page-content -->
+        </main><!-- End .main -->
+
+        <footer class="footer">
+        	<div class="footer-middle">
+	            <div class="container">
+	            	<div class="row">
+	            		<div class="col-sm-6 col-lg-3">
+	            			<div class="widget widget-about">
+	            				<img src="https://cavill.com.pt/img/cavill-logo-1611153476.jpg" class="footer-logo" alt="Footer Logo" width="105" height="25">
+	            				<p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. </p>
+
+	            				<div class="social-icons">
+	            					<a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
+	            					<a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
+	            					<a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
+	            					<a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
+	            					<a href="#" class="social-icon" target="_blank" title="Pinterest"><i class="icon-pinterest"></i></a>
+	            				</div><!-- End .soial-icons -->
+	            			</div><!-- End .widget about-widget -->
+	            		</div><!-- End .col-sm-6 col-lg-3 -->
+
+	            		<div class="col-sm-6 col-lg-3">
+	            			<div class="widget">
+	            				<h4 class="widget-title">Useful Links</h4><!-- End .widget-title -->
+
+	            				<ul class="widget-list">
+	            					<li><a href="about.html">About Molla</a></li>
+	            					<li><a href="#">How to shop on Molla</a></li>
+	            					<li><a href="#">FAQ</a></li>
+	            					<li><a href="contact.html">Contact us</a></li>
+	            					<li><a href="login.html">Log in</a></li>
+	            				</ul><!-- End .widget-list -->
+	            			</div><!-- End .widget -->
+	            		</div><!-- End .col-sm-6 col-lg-3 -->
+
+	            		<div class="col-sm-6 col-lg-3">
+	            			<div class="widget">
+	            				<h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
+
+	            				<ul class="widget-list">
+	            					<li><a href="#">Payment Methods</a></li>
+	            					<li><a href="#">Money-back guarantee!</a></li>
+	            					<li><a href="#">Returns</a></li>
+	            					<li><a href="#">Shipping</a></li>
+	            					<li><a href="#">Terms and conditions</a></li>
+	            					<li><a href="#">Privacy Policy</a></li>
+	            				</ul><!-- End .widget-list -->
+	            			</div><!-- End .widget -->
+	            		</div><!-- End .col-sm-6 col-lg-3 -->
+
+	            		<div class="col-sm-6 col-lg-3">
+	            			<div class="widget">
+	            				<h4 class="widget-title">My Account</h4><!-- End .widget-title -->
+
+	            				<ul class="widget-list">
+	            					<li><a href="#">Sign In</a></li>
+	            					<li><a href="cart.html">View Cart</a></li>
+	            					<li><a href="#">My Wishlist</a></li>
+	            					<li><a href="#">Track My Order</a></li>
+	            					<li><a href="#">Help</a></li>
+	            				</ul><!-- End .widget-list -->
+	            			</div><!-- End .widget -->
+	            		</div><!-- End .col-sm-6 col-lg-3 -->
+	            	</div><!-- End .row -->
+	            </div><!-- End .container -->
+	        </div><!-- End .footer-middle -->
+
+	        <div class="footer-bottom">
+	        	<div class="container">
+	        		<p class="footer-copyright">Copyright © 2019 Molla Store. All Rights Reserved.</p><!-- End .footer-copyright -->
+	        		<figure class="footer-payments">
+	        			<img src="assets/images/payments.png" alt="Payment methods" width="272" height="20">
+	        		</figure><!-- End .footer-payments -->
+	        	</div><!-- End .container -->
+	        </div><!-- End .footer-bottom -->
+        </footer><!-- End .footer -->
+    </div><!-- End .page-wrapper -->
+    <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu-overlay"></div><!-- End .mobil-menu-overlay -->
+
+    <div class="mobile-menu-container">
+        <div class="mobile-menu-wrapper">
+            <span class="mobile-menu-close"><i class="icon-close"></i></span>
+
+            <form action="#" method="get" class="mobile-search">
+                <label for="mobile-search" class="sr-only">Search</label>
+                <input type="search" class="form-control" name="mobile-search" id="mobile-search" placeholder="Search in..." required>
+                <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+            </form>
+            
+            <nav class="mobile-nav">
+                <ul class="mobile-menu">
+                    <li class="active">
+                        <a href="index.html">Home</a>
+
+                       
+                    </li>
+                    <li>
+                        <a href="category.html">Shop</a>
+                        
+                    </li>
+                    <li>
+                        <a href="#">Product</a>
+                        <ul>
+                            <li>
+                                <a href="about.html">Boots</a>
+
+                                
+                            </li>
+                            <li>
+                                <a href="contact.html">Slippers & Sandels</a>
+
+                               
+                            </li>
+                            <li><a href="login.html">Shoes</a></li>
+                            
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Pages</a>
+                        <ul>
+                            <li>
+                                <a href="about.html">About</a>
+
+                                
+                            </li>
+                            <li>
+                                <a href="contact.html">Contact</a>
+
+                               
+                            </li>
+                            <li><a href="login.html">Login</a></li>
+                            
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="blog.html">Blog</a>
+
+                       
+                            </li>
+                           
+                          
+                        </ul>
+                    </li>
+               
+            </nav><!-- End .mobile-nav -->
+
+            <div class="social-icons">
+                <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
+                <a href="#" class="social-icon" target="_blank" title="Youtube"><i class="icon-youtube"></i></a>
+            </div><!-- End .social-icons -->
+        </div><!-- End .mobile-menu-wrapper -->
+    </div><!-- End .mobile-menu-container -->
+
+    <!-- Sign in / Register Modal -->
+    <div class="modal fade" id="signin-modal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><i class="icon-close"></i></span>
+                    </button>
+
+                    <div class="form-box">
+                        <div class="form-tab">
+                            <ul class="nav nav-pills nav-fill" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="signin-tab" data-toggle="tab" href="#signin" role="tab" aria-controls="signin" aria-selected="true">Sign In</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="register-tab" data-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="false">Register</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="tab-content-5">
+                                <div class="tab-pane fade show active" id="signin" role="tabpanel" aria-labelledby="signin-tab">
+                                    <form action="#">
+                                        <div class="form-group">
+                                            <label for="singin-email">Username or email address *</label>
+                                            <input type="text" class="form-control" id="singin-email" name="singin-email" required>
+                                        </div><!-- End .form-group -->
+
+                                        <div class="form-group">
+                                            <label for="singin-password">Password *</label>
+                                            <input type="password" class="form-control" id="singin-password" name="singin-password" required>
+                                        </div><!-- End .form-group -->
+
+                                        <div class="form-footer">
+                                            <button type="submit" class="btn btn-outline-primary-2">
+                                                <span>LOG IN</span>
+                                                <i class="icon-long-arrow-right"></i>
+                                            </button>
+
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="signin-remember">
+                                                <label class="custom-control-label" for="signin-remember">Remember Me</label>
+                                            </div><!-- End .custom-checkbox -->
+
+                                            <a href="#" class="forgot-link">Forgot Your Password?</a>
+                                        </div><!-- End .form-footer -->
+                                    </form>
+                                    <div class="form-choice">
+                                        <p class="text-center">or sign in with</p>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <a href="#" class="btn btn-login btn-g">
+                                                    <i class="icon-google"></i>
+                                                    Login With Google
+                                                </a>
+                                            </div><!-- End .col-6 -->
+                                            <div class="col-sm-6">
+                                                <a href="#" class="btn btn-login btn-f">
+                                                    <i class="icon-facebook-f"></i>
+                                                    Login With Facebook
+                                                </a>
+                                            </div><!-- End .col-6 -->
+                                        </div><!-- End .row -->
+                                    </div><!-- End .form-choice -->
+                                </div><!-- .End .tab-pane -->
+                                <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
+                                    <form action="#">
+                                        <div class="form-group">
+                                            <label for="register-email">Your email address *</label>
+                                            <input type="email" class="form-control" id="register-email" name="register-email" required>
+                                        </div><!-- End .form-group -->
+
+                                        <div class="form-group">
+                                            <label for="register-password">Password *</label>
+                                            <input type="password" class="form-control" id="register-password" name="register-password" required>
+                                        </div><!-- End .form-group -->
+
+                                        <div class="form-footer">
+                                            <button type="submit" class="btn btn-outline-primary-2">
+                                                <span>SIGN UP</span>
+                                                <i class="icon-long-arrow-right"></i>
+                                            </button>
+
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="register-policy" required>
+                                                <label class="custom-control-label" for="register-policy">I agree to the <a href="#">privacy policy</a> *</label>
+                                            </div><!-- End .custom-checkbox -->
+                                        </div><!-- End .form-footer -->
+                                    </form>
+                                    <div class="form-choice">
+                                        <p class="text-center">or sign in with</p>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <a href="#" class="btn btn-login btn-g">
+                                                    <i class="icon-google"></i>
+                                                    Login With Google
+                                                </a>
+                                            </div><!-- End .col-6 -->
+                                            <div class="col-sm-6">
+                                                <a href="#" class="btn btn-login  btn-f">
+                                                    <i class="icon-facebook-f"></i>
+                                                    Login With Facebook
+                                                </a>
+                                            </div><!-- End .col-6 -->
+                                        </div><!-- End .row -->
+                                    </div><!-- End .form-choice -->
+                                </div><!-- .End .tab-pane -->
+                            </div><!-- End .tab-content -->
+                        </div><!-- End .form-tab -->
+                    </div><!-- End .form-box -->
+                </div><!-- End .modal-body -->
+            </div><!-- End .modal-content -->
+        </div><!-- End .modal-dialog -->
+    </div><!-- End .modal -->
+
+    <!-- Plugins JS File -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/jquery.hoverIntent.min.js"></script>
+    <script src="assets/js/jquery.waypoints.min.js"></script>
+    <script src="assets/js/superfish.min.js"></script>
+    <script src="assets/js/owl.carousel.min.js"></script>
+    <!-- Main JS File -->
+    <script src="assets/js/main.js"></script>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
+<script>
+    // edit button
+$(document).ready(function () {
+  $('#savebtn').on('click', function (event) {
+    event.preventDefault();
+    console.log("btn clicked")
+    let fullname = $('#editname').val()
+    console.log(fullname)
+    let house = $('#edithouse').val()
+    let street = $('#editstreet').val()
+    let state = $('#editstate').val()
+    let pincode = $('#editpincode').val()
+    let phone = $('#editphone').val()
+    let editaddress = $('#editaddressid').val()
+    console.log("editaddress " + editaddress)
+
+    let fullname_format = /^[A-Za-z\s]+$/
+    let house_format = /^[A-Za-z\s'".-]*$/
+    let street_format = /^[A-Za-z\s'".-]*$/
+    let pincode_format = /^\d{6}$/
+    let phone_format = /^\+91 [1-9][0-9]{9}$/
+    let validate = true
+
+    if (!fullname.match(fullname_format)) {
+      let text = "Error"
+      document.getElementById('editname_1').innerHTML = text
+      $('#editname').focus()
+      validate = false
+    }
+    else if (!house.match(house_format)) {
+      let text = "plz enter the correct data"
+      document.getElementById('edithouse_2').innerHTML = text
+      $('#edithouse').focus()
+      validate = false
+    }
+    else if (!street.match(street_format)) {
+      let text = "plx enter the correct data"
+      document.getElementById('editstreet_3').innerHTML = text
+      $('#editstreet').focus()
+      validate = false
+    } else if (!pincode.match(pincode_format)) {
+      let text = "plz enter valid pincode"
+      document.getElementById('editpincode_4').innerHTML = text
+      $('#editpincode').focus()
+      validate = false
+    } else if (!phone.match(phone_format)) {
+      let text = "plx enter the country code +91"
+      document.getElementById('editphone_5').innerHTML = text
+      $('#editphone').focus()
+      validate = false
+    } else {
+      console.log("everthing is ok")
+    }
+    if (validate) {
+
+      const edit_data = {
+        fullname: fullname,
+        house: house,
+        street: street,
+        state: state,
+        pincode: pincode,
+        phone: phone,
+        editaddress: editaddress
+      }
+      console.log(edit_data)
+
+      $.ajax({
+        url: `/editaddress`,
+        method: "POST",
+        data: edit_data,
+        success: function (response) {
+          console.log(response)
+          toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": true,
+            "progressBar": false,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "200",
+            "hideDuration": "500",
+            "timeOut": "1000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+          }
+          if (response.message === 'updated successfully') {
+
+            window.location.reload()
+          } else {
+            toastr.info("address already exist", "info")
+          }
+        }
+
+      })
+    }
+  })
+})
+
+// DELETE ADDRESS BTN
+$(document).ready(function () {
+  $('.deleteaddress').on('click', function () {
+    console.log("delete btn clicked")
+    let delete_btn = $(this).attr('data-id')
+    console.log(delete_btn)
+    const data = {
+      address: delete_btn
+    }
+    $.ajax({
+      url: `/addresses/${delete_btn}`,
+      method: "DELETE",
+      data: data,
+      success: function (response) {
+        console.log(response)
+        toastr.options = {
+          "closeButton": false,
+          "debug": false,
+          "newestOnTop": true,
+          "progressBar": false,
+          "positionClass": "toast-top-right",
+          "preventDuplicates": false,
+          "onclick": null,
+          "showDuration": "200",
+          "hideDuration": "500",
+          "timeOut": "1000",
+          "extendedTimeOut": "1000",
+          "showEasing": "swing",
+          "hideEasing": "linear",
+          "showMethod": "fadeIn",
+          "hideMethod": "fadeOut"
+        }
+        if (response.message === "deleted") {
+          toastr.success("deleted successfully", "Success")
+          window.location.reload()
+        }
+      }
+    })
+  })
+})
+
+</script>
+
+<!-- molla/dashboard.html  22 Nov 2019 10:03:13 GMT -->
+</html>

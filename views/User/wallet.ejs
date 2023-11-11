@@ -1,0 +1,48 @@
+
+<%-include('../partials/userheader')-%>
+        <main class="main">
+        	
+            <nav aria-label="breadcrumb" class="breadcrumb-nav mb-3" style="background-color:#f2f3f7;">
+                <div class="container" >
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="index.html" style="font-weight: 500;">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#" style="font-weight: 500;">My Account</a></li>
+                        <li class="breadcrumb-item active" aria-current="page" style="font-weight: 500;">Wallet</li>
+                    </ol>
+                </div><!-- End .container -->
+            </nav><!-- End .breadcrumb-nav -->
+            <div class="back-btn m-4">
+                <a href="/dashBord.html"><i class="fas fa-arrow-left" style="color:black;font-size: large;"></i></a>
+            </div>
+            <div class="">
+                <div class="tab-content" style="display:flex; justify-content: center;">
+                  
+                       
+                        
+                          <div class="card text-white m-3 col-md-4" style="max-width: 28%;height: 30%; border-radius: 5px;background-color: #A6FF96;">
+                            <div class="card-header m-3">Wallet </div>
+                            <div class="card-body">
+                              <h5 class="card-title">Balance Amt : <%=wallet.balance%></h5>
+                              
+                            </div>
+                          </div>
+                       
+                          <div class="card text-white  m-3 col-md-4" style="max-width: 28%;height: 30%;border-radius: 5px;background-color: #FF6969;">
+                            <div class="card-header m-3">Wallet</div>
+                            <div class="card-body">
+                              <h5 class="card-title">Purchase Amt : $0</h5>
+                              
+                            </div>
+                          </div>
+                          
+                          <div class="card text-white  m-3 col-md-4" style="max-width: 28%;height: 30%;border-radius: 5px;background-color: #78D6C6;">
+                            <div class="card-header m-3">Wallet</div>
+                            <div class="card-body">
+                              <h5 class="card-title">Refund Amt : $0</h5>
+                              <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
+                            </div>
+                          </div>
+                          
+                   
+                  </div>
+               </div>
